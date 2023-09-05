@@ -9,6 +9,9 @@ on:
 jobs:
     analyze:
         runs-on: ubuntu-latest
+        defaults:
+          run:
+            working-directory: ./onconutricare
         strategy:
             fail-fast: false
             matrix:
@@ -32,6 +35,9 @@ jobs:
 
     test:
         needs: analyze
+        defaults:
+          run:
+            working-directory: ./onconutricare
         runs-on: ${{ matrix.os }}
         strategy:
             fail-fast: false
