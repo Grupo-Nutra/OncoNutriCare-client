@@ -1,1 +1,2 @@
+[![Build Status](https://github.com/Grupo-Nutra/OncoNutriCare-client/workflows/Continuous%20Integration/badge.svg)](https://github.com/Grupo-Nutra/OncoNutriCare-client/actions?query=workflow%3A%22Continuous+Integration%22+branch%3Amain)
 # OncoNutriCare-client
