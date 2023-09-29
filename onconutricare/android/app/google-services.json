@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "842348785333",
+    "project_id": "onco-nutri-care",
+    "storage_bucket": "onco-nutri-care.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842348785333:android:360c41fe04128c9eb518fc",
+        "android_client_info": {
+          "package_name": "com.gruponutra.onconutricare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDztO8RXB1XBK46rPu0o8VR8OE4Q-m_8Uw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
