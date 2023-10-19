@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CrnDropdown extends StatefulWidget {
-  const CrnDropdown({Key? key}) : super(key: key);
+  final GlobalKey<FormFieldState<String>> formKey;
+  const CrnDropdown({Key? key, required this.formKey}) : super(key: key);
 
   @override
   State<CrnDropdown> createState() => _CrnDropdownState();
@@ -27,6 +28,7 @@ class _CrnDropdownState extends State<CrnDropdown> {
   @override
   Widget build(BuildContext context) {
     return FormField<String>(
+      key: widget.formKey,
       builder: (FormFieldState<String> state) {
         return DropdownButtonFormField<String>(
           value: selectedValue,
@@ -43,6 +45,13 @@ class _CrnDropdownState extends State<CrnDropdown> {
             labelText: 'CRN',
             hintText: 'Selecione um CRN',
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'O CRN é obrigatório.';
+            }
+
+            return null;
+          },
         );
       },
     );
