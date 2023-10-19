@@ -11,7 +11,7 @@ import 'firebase_options.dart';
 
 import '.env';
 import 'utils/firebase_helper.dart';
-import 'views/pages/home.dart';
+import 'views/pages/home/home.dart';
 import 'views/pages/login.dart';
 import 'views/pages/signup.dart';
 
