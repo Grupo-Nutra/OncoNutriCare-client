@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:onconutricare/controllers/nutritionist.dart';
 import 'package:onconutricare/views/widgets/crn_dropdown.dart';
 
 import '../../main.dart';
@@ -20,26 +21,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController pwdConfirmController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController crnNController = TextEditingController();
-  final TextEditingController crnAController = TextEditingController();
+  final crnDropdownKey = GlobalKey<FormFieldState<String>>();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final Nutritionist nutri = getIt<Nutritionist>();
-
-  final List<String> items = [
-    'CRN-1',
-    'CRN-2',
-    'CRN-3',
-    'CRN-4',
-    'CRN-5',
-    'CRN-6',
-    'CRN-7',
-    'CRN-8',
-    'CRN-9',
-    'CRN-10',
-    'CRN-11',
-  ];
-
-  String? selectedValue;
 
   _submit() async {
     try {
@@ -47,10 +32,19 @@ class _SignUpPageState extends State<SignUpPage> {
       late UserCredential? userCredential;
       userCredential = await FirebaseHelper().registerWithEmailAndPassword(
           emailController.value.text, pwdController.value.text);
-      // getting PK on API
 
       // saving globally
       nutri.setNutritionist(userCredential!);
+
+      nutri.name = nameController.value.text;
+      nutri.phone = phoneController.value.text;
+      nutri.uuid = userCredential.user!.uid;
+      nutri.crnAcronym = crnDropdownKey.currentState?.value;
+      nutri.crnNumber = int.parse(crnNController.value.text);
+
+      // creating user on API
+      NutritionistController().createNutritionist(nutri);
+
       // login flow successful, navigating to home page
       if (context.mounted) {
         Navigator.pushReplacementNamed(context, '/home');
@@ -103,7 +97,6 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -121,6 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 TextFormField(
                   controller: nameController,
+                  keyboardType: TextInputType.name,
                   decoration: const InputDecoration(
                     labelText: 'Nome',
                     hintText: 'Digite seu nome',
@@ -135,6 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 TextFormField(
                   controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     labelText: 'E-mail',
                     hintText: 'Digite seu e-mail',
@@ -181,49 +176,42 @@ class _SignUpPageState extends State<SignUpPage> {
                     return null;
                   },
                 ),
-                /* 
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      height: 50,
-                      child: DropdownMenu<String>(
-                        initialSelection: items.first,
-                        dropdownMenuEntries: items
-                            .map<DropdownMenuEntry<String>>((String value) {
-                          return DropdownMenuEntry<String>(
-                              value: value, label: value);
-                        }).toList(),
-                        onSelected: (String? newValue) {
-                          setState(() {
-                            selectedValue = newValue;
-                          });
-                          // state.didChange(newValue);
-                        },
-                        label: Text('CRN'),
-                        hintText: 'Selecione um CRN',
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        child: CrnDropdown(
+                          formKey: crnDropdownKey,
+                        ),
                       ),
-                    ),
-                    TextFormField(
-                      controller: crnNController,
-                      decoration: const InputDecoration(
-                        labelText: 'Inscrição',
-                        hintText: 'Digite o número de sua inscrição',
+                      const SizedBox(
+                        width: 12,
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'O número da inscrição é obrigatório.';
-                        }
+                      Expanded(
+                        child: TextFormField(
+                          controller: crnNController,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: 'Inscrição',
+                            hintText: 'Digite o número de sua inscrição',
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'O número da inscrição é obrigatório.';
+                            }
 
-                        return null;
-                      },
-                    ),
-                  ],
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                 */
                 TextFormField(
                   controller: phoneController,
-                  obscureText: true,
+                  keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     labelText: 'Telefone',
                     hintText: 'Digite seu número de telefone',

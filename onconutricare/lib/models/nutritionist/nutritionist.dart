@@ -23,23 +23,15 @@ abstract class _Nutritionist with Store {
   @observable
   String? photoUrl;
 
-  _Nutritionist(
-      {this.name,
-      this.uuid,
-      this.email,
-      this.crnNumber,
-      this.password,
-      this.phone,
-      this.crnAcronym,
-      this.photoUrl});
+  _Nutritionist();
 
   _Nutritionist.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    uuid = json['uuid'];
+    name = json['nomeCompleto'];
+    uuid = json['idNutricionista'];
     email = json['email'];
-    phone = json['phone'];
-    crnNumber = json['crnNumber'];
-    crnAcronym = json['crnAcronym'];
+    phone = json['telefone'];
+    crnNumber = int.parse(json['crnNumero']);
+    crnAcronym = json['crnSigla'];
     photoUrl = json['photoUrl'];
   }
 
@@ -54,12 +46,12 @@ abstract class _Nutritionist with Store {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['uuid'] = uuid;
+    data['nomeCompleto'] = name;
+    data['idNutricionista'] = uuid;
     data['email'] = email;
-    data['phone'] = phone;
-    data['crnNumber'] = crnNumber;
-    data['crnAcronym'] = crnAcronym;
+    data['telefone'] = phone;
+    data['crnNumero'] = crnNumber;
+    data['crnSigla'] = crnAcronym;
     data['photoUrl'] = photoUrl;
     return data;
   }
@@ -67,11 +59,8 @@ abstract class _Nutritionist with Store {
   @action
   void setNutritionist(UserCredential userCredential) {
     final user = userCredential.user!;
-    name = user.displayName ?? '';
     uuid = user.uid;
     email = user.email ?? '';
-    phone = user.phoneNumber;
-    photoUrl = user.photoURL;
   }
 
   @action
