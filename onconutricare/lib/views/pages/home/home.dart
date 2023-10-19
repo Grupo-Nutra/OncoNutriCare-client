@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:onconutricare/utils/firebase_helper.dart';
-import 'package:onconutricare/views/pages/home/appointment.dart';
-import 'package:onconutricare/views/pages/home/dashboard.dart';
-import 'package:onconutricare/views/pages/home/patient.dart';
+import 'package:onconutricare/views/pages/home/appointments.dart';
+import 'package:onconutricare/views/pages/home/dashboards.dart';
+import 'package:onconutricare/views/pages/home/patients.dart';
 
 import '../../../main.dart';
 import '../../../models/nutritionist/nutritionist.dart';
@@ -99,9 +99,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: const <Widget>[
-          DashboardPage(),
-          PatientPage(),
-          AppointmentPage(),
+          DashboardsPage(),
+          PatientsPage(),
+          AppointmentsPage(),
         ],
       ),
     );
