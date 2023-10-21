@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:onconutricare/models/nutritionist/nutritionist.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
@@ -14,6 +15,7 @@ import 'utils/firebase_helper.dart';
 import 'views/pages/home/home.dart';
 import 'views/pages/login.dart';
 import 'views/pages/signup.dart';
+import 'views/pages/register_patient.dart';
 
 final log = Logger('ONC_client');
 final transaction = Sentry.startTransaction('processOrderBatch()', 'task');
@@ -68,6 +70,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Onco Nutri Care',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: const [Locale('pt', 'BR')],
       themeMode: ThemeMode.light,
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
@@ -77,6 +84,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignUpPage(),
         '/home': (context) => const HomePage(),
+        '/register_patient': (context) => const RegisterPatient(),
       },
     );
   }

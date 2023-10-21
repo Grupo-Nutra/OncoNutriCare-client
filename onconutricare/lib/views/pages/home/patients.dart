@@ -12,8 +12,10 @@ class _PatientsPageState extends State<PatientsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {},
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(context, '/register_patient');
+        },
       ),
       body: Placeholder(),
     );

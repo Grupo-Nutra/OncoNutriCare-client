@@ -35,7 +35,7 @@ dependencies:
   dio: ^5.3.3  
   cupertino_icons: ^1.0.2
   intl: ^0.18.1
-  dio: ^5.3.3
+  localization: ^2.1.0
   
 dev_dependencies:
   flutter_test:
