@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:onconutricare/models/nutritionist/nutritionist.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,10 +7,11 @@ import 'package:get_it/get_it.dart';
 
 import 'color_schemes.g.dart';
 import 'firebase_options.dart';
-
 import '.env';
+
+import 'models/nutritionist/nutritionist.dart';
 import 'utils/firebase_helper.dart';
-import 'views/pages/home/home.dart';
+import 'views/pages/home.dart';
 import 'views/pages/login.dart';
 import 'views/pages/signup.dart';
 
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Onco Nutri Care',
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       debugShowCheckedModeBanner: false,
@@ -146,11 +146,6 @@ class _WelcomeState extends State<Welcome> {
             _loading ? const CircularProgressIndicator() : Container(),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
