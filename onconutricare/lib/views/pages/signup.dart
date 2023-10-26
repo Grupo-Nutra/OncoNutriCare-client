@@ -195,7 +195,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             labelText: 'Inscrição',
-                            hintText: 'Digite o número de sua inscrição',
+                            hintText: 'Digite o número da sua inscrição',
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {

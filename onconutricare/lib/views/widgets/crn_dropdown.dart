@@ -33,7 +33,12 @@ class _CrnDropdownState extends State<CrnDropdown> {
         return DropdownButtonFormField<String>(
           value: selectedValue,
           items: items
-              .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+              .map(
+                (item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(item),
+                ),
+              )
               .toList(),
           onChanged: (String? newValue) {
             setState(() {
