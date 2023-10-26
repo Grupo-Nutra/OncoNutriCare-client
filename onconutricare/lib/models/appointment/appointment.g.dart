@@ -24,6 +24,22 @@ mixin _$Appointment on _Appointment, Store {
     });
   }
 
+  late final _$idPatientAtom =
+      Atom(name: '_Appointment.idPatient', context: context);
+
+  @override
+  int? get idPatient {
+    _$idPatientAtom.reportRead();
+    return super.idPatient;
+  }
+
+  @override
+  set idPatient(int? value) {
+    _$idPatientAtom.reportWrite(value, super.idPatient, () {
+      super.idPatient = value;
+    });
+  }
+
   late final _$fullDateAtom =
       Atom(name: '_Appointment.fullDate', context: context);
 
@@ -108,13 +124,13 @@ mixin _$Appointment on _Appointment, Store {
       Atom(name: '_Appointment.tnoStatus', context: context);
 
   @override
-  int? get tnoStatus {
+  String? get tnoStatus {
     _$tnoStatusAtom.reportRead();
     return super.tnoStatus;
   }
 
   @override
-  set tnoStatus(int? value) {
+  set tnoStatus(String? value) {
     _$tnoStatusAtom.reportWrite(value, super.tnoStatus, () {
       super.tnoStatus = value;
     });
@@ -156,6 +172,7 @@ mixin _$Appointment on _Appointment, Store {
   String toString() {
     return '''
 id: ${id},
+idPatient: ${idPatient},
 fullDate: ${fullDate},
 weight: ${weight},
 nutritionalDiagnosis: ${nutritionalDiagnosis},

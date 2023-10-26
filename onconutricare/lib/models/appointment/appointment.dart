@@ -8,6 +8,8 @@ abstract class _Appointment with Store {
   @observable
   int? id;
   @observable
+  int? idPatient;
+  @observable
   DateTime? fullDate;
   @observable
   double? weight;
@@ -21,17 +23,27 @@ abstract class _Appointment with Store {
   String? nutritionalRisk;
   // ('Sim', 'Não')
   @observable
-  int? tnoStatus;
+  String? tnoStatus;
   // ('Sim', 'Não')
   @observable
   String? therapeuticPlan;
   @observable
   String? treatment;
 
-  _Appointment();
+  _Appointment(
+      {this.idPatient,
+      this.fullDate,
+      this.weight,
+      this.nutritionalDiagnosis,
+      this.inappetence,
+      this.nutritionalRisk,
+      this.tnoStatus,
+      this.therapeuticPlan,
+      this.treatment});
 
   _Appointment.fromJson(Map<String, dynamic> json) {
     id = int.parse(json['idConsulta']);
+    idPatient = int.parse(json['idPaciente']);
     fullDate = DateTime.parse('${json['data']} ${json['hora']}');
     weight = json['peso'];
     nutritionalDiagnosis = json['diagnosticoNutri'];
@@ -44,10 +56,8 @@ abstract class _Appointment with Store {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['data'] =
-        DateTime.parse('${fullDate!.year}-${fullDate!.month}-${fullDate!.day}');
-    data['hora'] = DateTime.parse(
-        '${fullDate!.hour}-${fullDate!.minute}-${fullDate!.second}');
+    data['idPaciente'] = idPatient;
+    data['data'] = fullDate!.toIso8601String();
     data['peso'] = weight;
     data['diagnosticoNutri'] = nutritionalDiagnosis;
     data['inapetencia'] = inappetence;
