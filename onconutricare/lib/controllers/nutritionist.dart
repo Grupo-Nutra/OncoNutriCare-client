@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:onconutricare/config/constants.dart';
+
+import '../config/constants.dart';
 import '../models/nutritionist/nutritionist.dart';
 
 class NutritionistController {
