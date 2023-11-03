@@ -14,17 +14,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final Nutritionist nutri = getIt<Nutritionist>();
 
-  late final TabController _tabController;
-
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 
@@ -68,23 +64,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             }
           }),
         ],
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const <Widget>[
-            Tab(
-              text: 'Dashboard',
-              icon: Icon(Icons.insert_chart_outlined),
-            ),
-            Tab(
-              text: 'Pacientes',
-              icon: Icon(Icons.people_alt_outlined),
-            ),
-            Tab(
-              text: 'Consultas',
-              icon: Icon(Icons.assignment_outlined),
-            ),
-          ],
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
