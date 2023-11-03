@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../utils/firebase_helper.dart';
 import '../../main.dart';
 import '../../models/nutritionist/nutritionist.dart';
+import '../widgets/patients_table.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,11 +18,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   _logout(BuildContext context) async {
@@ -66,11 +62,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
         child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(context, '/register_patient');
+        },
       ),
       body: const SingleChildScrollView(
-        child: Placeholder(),
+        child: PatientsTable(),
       ),
     );
   }

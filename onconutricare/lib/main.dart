@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:onconutricare/models/nutritionist/nutritionist.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
-
 import 'color_schemes.g.dart';
+import 'controllers/patient_service.dart';
 import 'firebase_options.dart';
 import '.env';
-
-import 'models/nutritionist/nutritionist.dart';
+import 'stores/patient_store.dart';
 import 'utils/firebase_helper.dart';
 import 'views/pages/home.dart';
 import 'views/pages/login.dart';
+import 'views/pages/patient_page.dart';
 import 'views/pages/signup.dart';
+import 'views/pages/register_patient.dart';
 
 final log = Logger('ONC_client');
 final transaction = Sentry.startTransaction('processOrderBatch()', 'task');
@@ -29,6 +32,16 @@ Future<void> main() async {
 
   getIt.registerSingleton<Nutritionist>(
     Nutritionist(),
+    signalsReady: true,
+  );
+
+  getIt.registerSingleton<PatientService>(
+    PatientService(),
+    signalsReady: true,
+  );
+
+  getIt.registerSingleton<PatientsStore>(
+    PatientsStore(),
     signalsReady: true,
   );
 
@@ -68,7 +81,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Onco Nutri Care',
-      themeMode: ThemeMode.dark,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: const [Locale('pt', 'BR')],
+      themeMode: ThemeMode.light,
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       debugShowCheckedModeBanner: false,
@@ -77,6 +95,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignUpPage(),
         '/home': (context) => const HomePage(),
+        '/register_patient': (context) => const RegisterPatient(),
+        '/patient_page': (context) => const PatientPage(),
       },
     );
   }
