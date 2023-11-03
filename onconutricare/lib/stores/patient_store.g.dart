@@ -25,6 +25,22 @@ mixin _$PatientsStore on _PatientsStore, Store {
     });
   }
 
+  late final _$currentPatientAtom =
+      Atom(name: '_PatientsStore.currentPatient', context: context);
+
+  @override
+  Patient? get currentPatient {
+    _$currentPatientAtom.reportRead();
+    return super.currentPatient;
+  }
+
+  @override
+  set currentPatient(Patient? value) {
+    _$currentPatientAtom.reportWrite(value, super.currentPatient, () {
+      super.currentPatient = value;
+    });
+  }
+
   late final _$createNewPatientAsyncAction =
       AsyncAction('_PatientsStore.createNewPatient', context: context);
 
@@ -42,6 +58,15 @@ mixin _$PatientsStore on _PatientsStore, Store {
     return _$loadPatientsAsyncAction.run(() => super.loadPatients());
   }
 
+  late final _$saveEditedPatientAsyncAction =
+      AsyncAction('_PatientsStore.saveEditedPatient', context: context);
+
+  @override
+  Future<void> saveEditedPatient(Patient editedPatient) {
+    return _$saveEditedPatientAsyncAction
+        .run(() => super.saveEditedPatient(editedPatient));
+  }
+
   late final _$removePatientAsyncAction =
       AsyncAction('_PatientsStore.removePatient', context: context);
 
@@ -54,22 +79,22 @@ mixin _$PatientsStore on _PatientsStore, Store {
       ActionController(name: '_PatientsStore', context: context);
 
   @override
-  void addPatient(Patient newPatient) {
+  void addPatient(Patient patient) {
     final _$actionInfo = _$_PatientsStoreActionController.startAction(
         name: '_PatientsStore.addPatient');
     try {
-      return super.addPatient(newPatient);
+      return super.addPatient(patient);
     } finally {
       _$_PatientsStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  int calculateAge(String? birthday) {
+  void setCurrentPatient(Patient patient) {
     final _$actionInfo = _$_PatientsStoreActionController.startAction(
-        name: '_PatientsStore.calculateAge');
+        name: '_PatientsStore.setCurrentPatient');
     try {
-      return super.calculateAge(birthday);
+      return super.setCurrentPatient(patient);
     } finally {
       _$_PatientsStoreActionController.endAction(_$actionInfo);
     }
@@ -78,7 +103,8 @@ mixin _$PatientsStore on _PatientsStore, Store {
   @override
   String toString() {
     return '''
-patients: ${patients}
+patients: ${patients},
+currentPatient: ${currentPatient}
     ''';
   }
 }

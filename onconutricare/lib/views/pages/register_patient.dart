@@ -22,8 +22,8 @@ class _RegisterPatientState extends State<RegisterPatient> {
   final _emailController = TextEditingController();
   final _oncoDiagnosisController = TextEditingController();
   final _sexDropdownKey = GlobalKey<FormFieldState<String>>();
-  final user = getIt<Nutritionist>();
-  final patientsStore = getIt<PatientsStore>();
+  final _user = getIt<Nutritionist>();
+  final _store = getIt<PatientsStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,6 @@ class _RegisterPatientState extends State<RegisterPatient> {
                     const SizedBox(height: 10),
                     TextFormField(
                       controller: _birthdayController,
-                      readOnly: true,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Data de Nascimento',
@@ -155,13 +154,13 @@ class _RegisterPatientState extends State<RegisterPatient> {
                         name: _nameController.text,
                         birthday: _birthdayController.text,
                         medicalRecordNum: _medicalRecordNumController.text,
-                        sex: _sexDropdownKey.currentState?.value,
+                        sex: (_sexDropdownKey.currentState?.value == 'Masculino') ? 'M' : 'F',
                         phone: _phoneController.text,
                         email: _emailController.text,
                         oncoDiagnosis: _oncoDiagnosisController.text,
-                        nutriId: user.uuid,
+                        nutriId: _user.uuid,
                       );
-                      await patientsStore.createNewPatient(newPatient).then((_) => Navigator.pop(context));
+                      await _store.createNewPatient(newPatient).then((_) => Navigator.pop(context));
                     }
                   },
                   style: ElevatedButton.styleFrom(

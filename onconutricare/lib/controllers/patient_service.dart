@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:intl/intl.dart';
 import '../main.dart';
 import '../models/nutritionist/nutritionist.dart';
 import '../models/patient.dart';
@@ -10,8 +9,6 @@ class PatientService  {
   final Nutritionist nutri = getIt<Nutritionist>();
 
   Future<void> createPatient(Patient newPatient) async {
-    DateTime parsedBirthday = DateFormat('dd/MM/yyyy').parse(newPatient.birthday!);
-    newPatient.birthday = DateFormat('yyyy-MM-dd').format(parsedBirthday);
 
     final Map<String, dynamic> patientData = newPatient.toJson();
     const String apiUrl = 'http://localhost:3000/patients';
@@ -34,8 +31,7 @@ class PatientService  {
       final response = await dio.get(apiUrl);
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> decodedJson = Map.from(response.data);
-        final List<dynamic> patientsData = decodedJson['patients'];
+        final List<dynamic> patientsData = response.data;
         final List<Patient> patients = patientsData
             .map((data) => Patient.fromJson(data))
             .toList();
@@ -46,6 +42,21 @@ class PatientService  {
       }
     } catch (e) {
       throw Exception("Erro ao buscar pacientes: $e");
+    }
+  }
+
+Future<void> updatePatient(Patient editedPatient) async {
+    final Map<String, dynamic> patientData = editedPatient.toJson();
+    final String apiUrl = 'http://localhost:3000/patients/${editedPatient.id}';
+
+    try {
+      await dio.put(
+        apiUrl,
+        data: patientData,
+      );
+    }
+    catch(e) {
+      throw Exception("Erro ao atualizar paciente.");
     }
   }
 

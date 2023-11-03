@@ -6,17 +6,15 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
-
 import 'color_schemes.g.dart';
 import 'controllers/patient_service.dart';
 import 'firebase_options.dart';
 import '.env';
-
-import 'models/nutritionist/nutritionist.dart';
 import 'stores/patient_store.dart';
 import 'utils/firebase_helper.dart';
-import 'views/pages/home/home.dart';
+import 'views/pages/home.dart';
 import 'views/pages/login.dart';
+import 'views/pages/patient_page.dart';
 import 'views/pages/signup.dart';
 import 'views/pages/register_patient.dart';
 
@@ -98,6 +96,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignUpPage(),
         '/home': (context) => const HomePage(),
         '/register_patient': (context) => const RegisterPatient(),
+        '/patient_page': (context) => const PatientPage(),
       },
     );
   }

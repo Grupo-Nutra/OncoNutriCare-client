@@ -36,27 +36,38 @@ class PatientsTableState extends State<PatientsTable> {
               )),
               DataColumn(label: Text('Sexo')),
               DataColumn(label: Text('Diagnóstico')),
-              DataColumn(label: Text('Idade'), numeric: true),
+              DataColumn(label: Text('Idade')),
               DataColumn(label: Text('Excluir')),
+              DataColumn(label: Text('Acessar')),
             ],
             rows: patients.asMap().entries.map((entry) {
-  final index = entry.key;
-  final patientInfo = entry.value;
+              final index = entry.key;
+              final patientInfo = entry.value;
 
-  return DataRow(
-    cells: [
-      DataCell(Text(patientInfo.name.toString())),
-      DataCell(Text(patientInfo.sex.toString())),
-      DataCell(Text(patientInfo.oncoDiagnosis.toString())),
-      DataCell(Text(patientInfo.age.toString())),
-      DataCell(
-        IconButton(
-          icon: const Icon(Icons.delete, color: Colors.red,), 
-          onPressed: () {
-            final patientToDelete = patients[index]; 
-            _store.removePatient(patientToDelete);
-          },
-        ),
+              return DataRow(
+                cells: [
+                  DataCell(Text(patientInfo.name.toString())),
+                  DataCell(Text(patientInfo.sex.toString())),
+                  DataCell(Text(patientInfo.oncoDiagnosis.toString())),
+                  DataCell(Text(patientInfo.age.toString())),
+                  DataCell(
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline_outlined, color: Colors.red,), 
+                      onPressed: () {
+                        final patientToDelete = patients[index]; 
+                        _store.removePatient(patientToDelete);
+                      },
+                    ),
+                  ),
+                  DataCell(
+                    IconButton(
+                      icon: const Icon(Icons.arrow_circle_right, color: Colors.green,), 
+                      onPressed: () {
+                        final currentPatient = patients[index];
+                        _store.setCurrentPatient(currentPatient);
+                        Navigator.pushNamed(context, '/patient_page');
+                      },
+                    ),
                   ),
                 ],
               );

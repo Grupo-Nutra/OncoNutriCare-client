@@ -14,14 +14,17 @@ abstract class _PatientsStore with Store {
   @observable
   ObservableList<Patient> patients = ObservableList<Patient>();
 
-  @action
-  void addPatient(Patient newPatient) {
-    patients.add(newPatient);
-  }
+  @observable
+  Patient? currentPatient;
 
   @action
+  void addPatient(Patient patient) {
+    patient.age = calculateAge(patient.birthday);
+    patients.add(patient);
+  }
+
   int calculateAge(String? birthday) {
-    final birthdayDate = DateFormat('yyyy-MM-dd').parse(birthday!);
+    final birthdayDate = DateTime.parse(birthday!);
     final currentDate = DateTime.now();
 
     final age = currentDate.year - birthdayDate.year;
@@ -37,11 +40,10 @@ abstract class _PatientsStore with Store {
 
   @action
   Future<void> createNewPatient(Patient newPatient) async {
+    DateTime parsedBirthday = DateFormat('dd/MM/yyyy').parse(newPatient.birthday!);
+    newPatient.birthday = DateFormat('yyyy-MM-dd').format(parsedBirthday);
     try{
-      await patientService.createPatient(newPatient);
-
-      newPatient.age = calculateAge(newPatient.birthday);
-    
+      await patientService.createPatient(newPatient); 
       addPatient(newPatient);
     } catch (e) {
       throw Exception("Erro ao criar novo paciente: $e");
@@ -52,6 +54,11 @@ abstract class _PatientsStore with Store {
   Future<void> loadPatients() async {
     try {
       final List<Patient> loadedPatients = await patientService.fetchPatients();
+      
+      for(final patient in loadedPatients) {
+        patient.age = calculateAge(patient.birthday);
+      }
+      
       patients.clear();
       patients.addAll(loadedPatients);
     } catch (e) {
@@ -60,13 +67,40 @@ abstract class _PatientsStore with Store {
   }
 
   @action
+  Future<void> saveEditedPatient(Patient editedPatient) async {
+    DateTime parsedBirthday = DateFormat('dd/MM/yyyy').parse(editedPatient.birthday!);
+    editedPatient.birthday = DateFormat('yyyy-MM-dd').format(parsedBirthday);
+    try {
+      await patientService.updatePatient(editedPatient);
+
+      final index = patients.indexWhere((patient) => patient.id == editedPatient.id);
+
+      if (index != -1) {
+        patients.removeAt(index);
+        patients.add(editedPatient);
+      }
+    } catch (e) {
+      throw Exception("Erro ao editar o paciente: $e");
+    }
+  }
+
+  @action
+  void setCurrentPatient(Patient patient) {
+    currentPatient = patient;
+  }
+
+  @action
   Future<void> removePatient(Patient patient) async {
     try {
       await patientService.deletePatient(patient.id!);
 
-      patients.remove(patient);
+      final index = patients.indexWhere((patient) => patient.id == patient.id);
+
+      if (index != -1) {
+        patients.removeAt(index);
+      }
     } catch (e) {
-      throw Exception("Erro remover paciente: $e");
+      throw Exception("Erro ao remover paciente: $e");
     }
   }
 }
