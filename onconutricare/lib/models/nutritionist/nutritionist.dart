@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first, library_private_types_in_public_api
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 
@@ -23,7 +24,16 @@ abstract class _Nutritionist with Store {
   @observable
   String? photoUrl;
 
-  _Nutritionist();
+  _Nutritionist({
+    this.name,
+    this.uuid,
+    this.email,
+    this.password,
+    this.phone,
+    this.crnNumber,
+    this.crnAcronym,
+    this.photoUrl,
+  });
 
   _Nutritionist.fromJson(Map<String, dynamic> json) {
     name = json['nomeCompleto'];
