@@ -6,10 +6,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 
 import 'color_schemes.g.dart';
+import 'controllers/patient_service.dart';
 import 'firebase_options.dart';
 import '.env';
 
 import 'models/nutritionist/nutritionist.dart';
+import 'stores/patient_store.dart';
 import 'utils/firebase_helper.dart';
 import 'views/pages/home.dart';
 import 'views/pages/login.dart';
@@ -29,6 +31,16 @@ Future<void> main() async {
 
   getIt.registerSingleton<Nutritionist>(
     Nutritionist(),
+    signalsReady: true,
+  );
+
+  getIt.registerSingleton<PatientService>(
+    PatientService(),
+    signalsReady: true,
+  );
+
+  getIt.registerSingleton<PatientsStore>(
+    PatientsStore(),
     signalsReady: true,
   );
 
